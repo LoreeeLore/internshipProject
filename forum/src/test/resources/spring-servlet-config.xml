@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    	http://www.springframework.org/schema/beans/spring-beans.xsd
+    	http://www.springframework.org/schema/context
+
+    	http://www.springframework.org/schema/context/spring-context.xsd
+    	http://www.springframework.org/schema/mvc
+
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/jdbc
+        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd ">
+
+    <!-- Add support for component scanning -->
+    <context:component-scan base-package="com.studlabs"/>
+
+    <!-- Add support for conversion, formatting and validation support -->
+    <mvc:annotation-driven/>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean class="org.springframework.mock.web.MockServletContext"/>
+
+    <!--    this creates jdbc:h2:mem:dataSource;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false-->
+    <jdbc:embedded-database id="dataSource" type="H2">
+        <jdbc:script location="classpath:db/migration/V0.0__schema.sql"/>
+        <jdbc:script location="classpath:db/migration/V0.1__thread-date.sql"/>
+        <jdbc:script location="classpath:db/migration/V2.0__data.sql"/>
+        <jdbc:script location="classpath:db/migration/V2.1__thread-user.sql"/>
+        <jdbc:script location="classpath:db/migration/V2.2__update-data-user.sql"/>
+        <jdbc:script location="classpath:db/migration/V2.3__update-thread-private.sql"/>
+        <jdbc:script location="classpath:db/migration/V2.4__insert-privacy.sql"/>
+        <jdbc:script location="classpath:db/migration/V3.0__thread-close.sql"/>
+        <jdbc:script location="classpath:db/migration/V3.1__thread-close-update.sql"/>
+    </jdbc:embedded-database>
+
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          scope="singleton">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.studlabs.controllers.CorsFilter"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>
+
+
+
+
+
