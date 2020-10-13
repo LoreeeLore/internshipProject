@@ -14,7 +14,7 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <spring.version>5.1.8.RELEASE</spring.version>
         <jackson.version>2.9.9</jackson.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <mockito-core.version>2.28.2</mockito-core.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <flyway-core.version>5.2.4</flyway-core.version>
