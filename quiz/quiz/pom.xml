@@ -13,7 +13,7 @@
         <java.version>8</java.version>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <spring.version>5.1.8.RELEASE</spring.version>
-        <jackson.version>2.9.9</jackson.version>
+        <jackson.version>2.12.1</jackson.version>
         <junit.version>4.12</junit.version>
         <mockito-core.version>2.28.2</mockito-core.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
